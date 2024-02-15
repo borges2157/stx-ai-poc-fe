@@ -49,7 +49,7 @@ if st.session_state.step == "chat":
     for msg in st.session_state.messages:
         if msg["role"] == "assistant":
             st.chat_message(msg["role"],
-                            avatar=CHATBOT_AVATAR_ADDRESS).write(
+                            avatar=st.image(CHATBOT_AVATAR_ADDRESS)).write(
                 msg["content"])
         else:
             st.chat_message(msg["role"]).write(msg["content"])
@@ -58,9 +58,9 @@ if st.session_state.step == "chat":
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
 
-        with st.chat_message("assistant", avatar=CHATBOT_AVATAR_ADDRESS):
+        with st.chat_message("assistant", avatar=st.image(CHATBOT_AVATAR_ADDRESS)):
             response = requests.post(f"http://{host_ip}:2000/chat",
                                      json={"message": prompt, "session_id": st.session_state.session_id}).text
             st.session_state.messages.append({"role": "assistant", "content": response,
-                                              "avatar": CHATBOT_AVATAR_ADDRESS})
+                                              "avatar": st.image(CHATBOT_AVATAR_ADDRESS)})
             st.write(response)
