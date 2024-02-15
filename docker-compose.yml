@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   stx-chatbot-fe:
-    image: stx-chatbot-fe:1.0.5-alpha
+    image: stx-chatbot-fet:1.0.7-alpha
     container_name: stx-chatbot-fe
     hostname: stx-chatbot-fe
     restart: unless-stopped
@@ -9,3 +9,4 @@ services:
       - "8010:8010"
     environment:
       - HOST_IP=10.127.140.12
+      - HOST_PORT=8199
