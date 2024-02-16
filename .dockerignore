@@ -1,3 +1,5 @@
 .gitignore
 .git
 venv
+testing
+horizon-template
