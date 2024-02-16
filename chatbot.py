@@ -26,10 +26,8 @@ def submit(model, temperature, host_ip):
 
 
 host_ip = os.environ['HOST_IP']
-host_port = os.environ['HOST_PORT']
 
 CHATBOT_AVATAR_ADDRESS = 'wr-studio-logo-black.png'
-# CHATBOT_AVATAR_ADDRESS = f'http://{host_ip}:{host_port}/console/static/images/wr-studio-logo-black.png'
 
 if "step" not in st.session_state:
     st.session_state["step"] = "create_session"
