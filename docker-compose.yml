@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   stx-chatbot-fe:
-    image: stx-chatbot-fet:1.0.7-alpha
+    image: wr-chatbot-fe:1.0.9-alpha
     container_name: stx-chatbot-fe
     hostname: stx-chatbot-fe
     restart: unless-stopped

@@ -2,6 +2,7 @@ import os
 
 import requests
 import streamlit as st
+from PIL import Image
 
 styl = f"""
 <style>
@@ -27,7 +28,8 @@ def submit(model, temperature, host_ip):
 host_ip = os.environ['HOST_IP']
 host_port = os.environ['HOST_PORT']
 
-CHATBOT_AVATAR_ADDRESS = f'http://{host_ip}:{host_port}/console/static/images/wr-studio-logo-black.png'
+CHATBOT_AVATAR_ADDRESS = 'wr-studio-logo-black.png'
+# CHATBOT_AVATAR_ADDRESS = f'http://{host_ip}:{host_port}/console/static/images/wr-studio-logo-black.png'
 
 if "step" not in st.session_state:
     st.session_state["step"] = "create_session"
@@ -49,7 +51,7 @@ if st.session_state.step == "chat":
     for msg in st.session_state.messages:
         if msg["role"] == "assistant":
             st.chat_message(msg["role"],
-                            avatar=CHATBOT_AVATAR_ADDRESS).write(
+                            avatar=Image.open(CHATBOT_AVATAR_ADDRESS)).write(
                 msg["content"])
         else:
             st.chat_message(msg["role"]).write(msg["content"])
@@ -58,7 +60,7 @@ if st.session_state.step == "chat":
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
 
-        with st.chat_message("assistant", avatar=CHATBOT_AVATAR_ADDRESS):
+        with st.chat_message("assistant", avatar=Image.open(CHATBOT_AVATAR_ADDRESS)):
             response = requests.post(f"http://{host_ip}:2000/chat",
                                      json={"message": prompt, "session_id": st.session_state.session_id}).text
             st.session_state.messages.append({"role": "assistant", "content": response,
