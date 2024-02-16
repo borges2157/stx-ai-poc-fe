@@ -5,3 +5,5 @@ testing
 horizon-template
 docker-compose.yml
 .idea
+Dockerfile
+README.md
