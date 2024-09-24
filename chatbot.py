@@ -45,9 +45,11 @@ if "step" not in st.session_state:
 
 if st.session_state.step == "create_session":
     st.write("Enter your session details")
+    provider_list = []
+    for provider in data_loaded:
+        provider_list.append(provider)
     client = st.selectbox(
-        'Chose the client you want to use:',
-        ('bedrock', 'localai', 'ollama', 'openai', 'vllm'))
+        'Chose the client you want to use:', provider_list)
     model = st.selectbox(
         MODEL_MSG,
         data_loaded[client]
