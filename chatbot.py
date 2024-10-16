@@ -11,7 +11,7 @@ styl = f"""
       padding-bottom: 1rem;
     }}
     .block-container {{
-      padding-top: 2rem;
+      padding-top: 3rem;
     }}
 </style>
 """
@@ -19,9 +19,9 @@ styl = f"""
 st.markdown(styl, unsafe_allow_html=True)
 
 
-def submit(model, client, temperature, host_ip):
-    headers = {'temperature': str(temperature), 'model': model, 'client': client}
-    session_api = f'http://{host_ip}:2000/session'
+def submit(model, client, openstack_system, temperature, host_ip, host_port):
+    headers = {'temperature': str(temperature), 'model': model, 'client': client, 'os_system': openstack_system}
+    session_api = f'http://{host_ip}:{host_port}/session'
     st.session_state["session_id"] = requests.get(session_api, headers=headers).text
     st.session_state["step"] = "chat"
 
@@ -35,6 +35,7 @@ def read_yaml():
 
 
 host_ip = os.environ['HOST_IP']
+host_port = os.environ['HOST_PORT']
 data_loaded = read_yaml()
 
 CHATBOT_AVATAR_ADDRESS = 'wr-studio-logo-black.png'
@@ -54,9 +55,9 @@ if st.session_state.step == "create_session":
         MODEL_MSG,
         data_loaded[client]
     )
-
+    openstack_system = st.checkbox("OpenStack instance")
     temperature = st.slider("Model temperature", min_value=0.0, max_value=2.0, value=0.0)
-    st.button("Initiate session", on_click=submit, args=[model, client, temperature, host_ip])
+    st.button("Initiate session", on_click=submit, args=[model, client, openstack_system, temperature, host_ip, host_port])
 
 if st.session_state.step == "chat":
     if "messages" not in st.session_state:
@@ -77,7 +78,7 @@ if st.session_state.step == "chat":
         st.chat_message("user").write(prompt)
 
         with st.chat_message("assistant", avatar=Image.open(CHATBOT_AVATAR_ADDRESS)):
-            response = requests.post(f"http://{host_ip}:2000/chat",
+            response = requests.post(f"http://{host_ip}:{host_port}/chat",
                                      json={"message": prompt, "session_id": st.session_state.session_id}).text
             st.session_state.messages.append({"role": "assistant", "content": response,
                                               "avatar": CHATBOT_AVATAR_ADDRESS})
