@@ -20,7 +20,7 @@ st.markdown(styl, unsafe_allow_html=True)
 
 
 def submit(model, client, openstack_system, temperature, host_ip, host_port):
-    headers = {'temperature': str(temperature), 'model': model, 'client': client, 'os_system': openstack_system}
+    headers = {'temperature': str(temperature), 'model': model, 'client': client, 'openstack': str(openstack_system)}
     session_api = f'http://{host_ip}:{host_port}/session'
     st.session_state["session_id"] = requests.get(session_api, headers=headers).text
     st.session_state["step"] = "chat"
