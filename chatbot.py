@@ -11,7 +11,7 @@ styl = f"""
       padding-bottom: 1rem;
     }}
     .block-container {{
-      padding-top: 2rem;
+      padding-top: 3rem;
     }}
 </style>
 """
@@ -55,8 +55,7 @@ if st.session_state.step == "create_session":
         MODEL_MSG,
         data_loaded[client]
     )
-    st.write("Check if you have an OpenStack instance available")
-    openstack_system = st.radio("OpenStack instance available")
+    openstack_system = st.checkbox("OpenStack instance")
     temperature = st.slider("Model temperature", min_value=0.0, max_value=2.0, value=0.0)
     st.button("Initiate session", on_click=submit, args=[model, client, openstack_system, temperature, host_ip, host_port])
 
